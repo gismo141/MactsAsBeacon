@@ -33,8 +33,8 @@
     self.manager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil];
     
     [self.uuidFieldCell setStringValue:@"8947EF40-E63B-11E5-A837-0800200C9A66"];
-    [self.majorFieldCell setStringValue:@"1"];
-    [self.minorFieldCell setStringValue:@"500"];
+    [self.majorFieldCell setStringValue:@"5"];
+    [self.minorFieldCell setStringValue:@"1000"];
     [self.powerFieldCell setStringValue:@"-58"];
     
     //self.isBroadcasting = NO;
