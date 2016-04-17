@@ -32,20 +32,43 @@
     // Insert code here to initialize your application
     self.manager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil];
     
-    [self.uuidFieldCell setStringValue:@"B0702880-A295-A8AB-F734-031A98A512DE"];
+    [self.uuidFieldCell setStringValue:@"8947EF40-E63B-11E5-A837-0800200C9A66"];
     [self.majorFieldCell setStringValue:@"5"];
     [self.minorFieldCell setStringValue:@"1000"];
     [self.powerFieldCell setStringValue:@"-58"];
     
-    self.isBroadcasting = NO;
-    [self.statusField setStringValue:@"Not broadcasting"];
+    //self.isBroadcasting = NO;
+    //[self.statusField setStringValue:@"Not broadcasting"];
     
+    NSUUID *proxUUID = [[NSUUID alloc] initWithUUIDString:self.uuidFieldCell.stringValue];
+    NSInteger major = [self.majorFieldCell.stringValue integerValue];
+    NSInteger minor = [self.minorFieldCell.stringValue integerValue];
+    NSInteger power = [self.powerFieldCell.stringValue integerValue];
 
-    
+    CMBeaconAdvertismentData *beaconData = [[CMBeaconAdvertismentData alloc] initWithProximityUUID:proxUUID
+                                                                                             major:major
+                                                                                             minor:minor
+                                                                                     measuredPower:power];
+
+    [self.manager startAdvertising:beaconData.beaconAdvertisement];
+    self.isBroadcasting = YES;
+
+    [self.statusField setStringValue:@"Broadcasting"];
+    [self.toggleButton setTitle:@"Stop broadcasting"];
+
+    [self.uuidFieldCell setEditable:NO];
+    [self.uuidFieldCell setTextColor:[NSColor lightGrayColor]];
+    [self.majorFieldCell setEditable:NO];
+    [self.majorFieldCell setTextColor:[NSColor lightGrayColor]];
+    [self.minorFieldCell setEditable:NO];
+    [self.minorFieldCell setTextColor:[NSColor lightGrayColor]];
+    [self.powerFieldCell setEditable:NO];
+    [self.powerFieldCell setTextColor:[NSColor lightGrayColor]];
+
 }
 
 -(void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
-    
+
     if (peripheral.state == CBPeripheralManagerStatePoweredOn) {
         
         self.manager = peripheral;
